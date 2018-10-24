@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration
+	xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+	<!-- Configure the database connection here -->
+	<jdbc>
+		<driver>org.postgresql.Driver</driver>
+		<url>jdbc:postgresql://192.168.254.232/sia_ds</url>
+		<user>ihsa</user>
+		<password>ihsa</password>
+	</jdbc>
+
+	<generator>
+		<!-- The default code generator. You can override this one, to generate 
+			your own code style Defaults to org.jooq.util.DefaultGenerator -->
+		<name>org.jooq.codegen.DefaultGenerator</name>
+
+		<database>
+			<!-- The database type. The format here is: org.util.[database].[database]Database -->
+			<name>org.jooq.meta.postgres.PostgresDatabase</name>
+
+			<!-- The database schema (or in the absence of schema support, in your 
+				RDBMS this can be the owner, user, database name) to be generated -->
+			<schemata>
+				<schema>
+					<inputSchema>signing</inputSchema>
+				</schema>
+				<schema>
+					<inputSchema>public</inputSchema>
+				</schema>
+			</schemata>
+
+			<!-- All elements that are generated from your schema (A Java regular 
+				expression. Use the pipe to separate several expressions) Watch out for case-sensitivity. 
+				Depending on your database, this might be important! -->
+			<includes>.*</includes>
+
+			<!-- All elements that are excluded from your schema (A Java regular expression. 
+				Use the pipe to separate several expressions). Excludes match before includes -->
+			<!-- <excludes>IBE\$.*|MON\$.*|RDB\$.*</excludes> -->
+
+			<forcedTypes>
+				<forcedType>
+
+					<!-- Specify the Java type of your custom type. This corresponds to 
+						the Binding's <U> type. -->
+					<userType>com.google.gson.JsonElement</userType>
+
+					<!-- Associate that custom type with your binding. -->
+					<binding>mx.ihsa.sia.data.util.PostgresJSONGsonBinding</binding>
+
+					<!-- Add a Java regular expression matching fully-qualified columns. 
+						Use the pipe to separate several expressions. If provided, both "expressions" 
+						and "types" must match. -->
+					<expression>.*JSON.*</expression>
+
+					<!-- Add a Java regular expression matching data types to be forced 
+						to have this type. Data types may be reported by your database as: - NUMBER 
+						regexp suggestion: NUMBER - NUMBER(5) regexp suggestion: NUMBER\(5\) - NUMBER(5, 
+						2) regexp suggestion: NUMBER\(5,\s*2\) - any other form It is thus recommended 
+						to use defensive regexes for types. If provided, both "expressions" and "types" 
+						must match. -->
+					<types>.*</types>
+				</forcedType>
+			</forcedTypes>
+		</database>
+
+		<generate>
+			<pojos>true</pojos>
+ 			<daos>true</daos> 
+			<pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+		</generate>
+
+		<target>
+			<!-- The destination package of your generated classes (within the destination 
+				directory) -->
+			<packageName>mx.ihsa.sia.model</packageName>
+			<encoding>UTF8</encoding>
+			<!-- The destination directory of your generated classes -->
+			<directory>src/main/java</directory>
+		</target>
+	</generator>
+</configuration>
